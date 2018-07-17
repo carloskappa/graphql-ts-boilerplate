@@ -1,0 +1,25 @@
+{
+  "name": "graphql-ts-boilerplate",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/node": "^10.5.2",
+    "gql2ts": "^1.8.0",
+    "nodemon": "^1.18.2",
+    "ts-node": "7.0.0",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "typescript": "2.9.2"
+  },
+  "dependencies": {
+    "graphql-import": "^0.6.0",
+    "graphql-yoga": "^1.14.12",
+    "pg": "^7.3.0",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.2.7"
+  },
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
+    "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
+  }
+}
