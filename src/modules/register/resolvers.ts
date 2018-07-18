@@ -1,8 +1,8 @@
 import * as bcrypt from "bcryptjs";
 import * as yup from "yup";
-import { User } from "../../entity/User";
 import { ResolverMap } from "../../types/graphql-utils";
 import { GQL } from "../../types/schema";
+import { User } from "../../entity/User";
 import { formatValidationError } from "../../utils/formatValidationError";
 import {
   duplicateEmail,
@@ -26,7 +26,7 @@ const schema = yup.object().shape({
 
 export const resolvers: ResolverMap = {
   Query: {
-    bye: () => "Bye"
+    bye: () => "bye"
   },
   Mutation: {
     register: async (
@@ -39,12 +39,15 @@ export const resolvers: ResolverMap = {
       } catch (err) {
         return formatValidationError(err);
       }
+
       const { email, password } = args;
-      const userAlreadyExist = await User.findOne({
+
+      const userAlreadyExists = await User.findOne({
         where: { email },
         select: ["id"]
       });
-      if (userAlreadyExist) {
+
+      if (userAlreadyExists) {
         return [
           {
             path: "email",
@@ -52,14 +55,17 @@ export const resolvers: ResolverMap = {
           }
         ];
       }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = User.create({
         email,
         password: hashedPassword
       });
+
       await user.save();
 
-      const link = createConfirmEmail(url, user.id, redis);
+      await createConfirmEmail(url, user.id, redis);
+
       return null;
     }
   }

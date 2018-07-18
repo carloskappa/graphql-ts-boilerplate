@@ -8,6 +8,7 @@ import { makeExecutableSchema, mergeSchemas } from "graphql-tools";
 import { GraphQLSchema } from "graphql";
 import * as Redis from "ioredis";
 import { User } from "./entity/User";
+import { createTestConnection } from "./utils/createTestConnection";
 export const startServer = async () => {
   const schemas: GraphQLSchema[] = [];
   const folders = fs.readdirSync(path.join(__dirname, "./modules"));
@@ -28,7 +29,6 @@ export const startServer = async () => {
       url: `${request.protocol}://${request.get("host")}`
     })
   });
-
   server.express.get("/confirm/:id", async (req, res) => {
     const { id } = req.params;
     const userId = await redis.get(id);
@@ -39,7 +39,11 @@ export const startServer = async () => {
       res.send("invalid");
     }
   });
-  await createORMConnection();
+  if (process.env.NODE_ENV === "test") {
+    await createTestConnection(true);
+  } else {
+    await createORMConnection();
+  }
   const app = await server.start({
     port: process.env.NODE_ENV === "test " ? 0 : 4000
   });

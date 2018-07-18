@@ -33,12 +33,13 @@
     "yup": "^0.25.1"
   },
   "scripts": {
-    "start": "SET NODE_ENV=devel & nodemon --exec ts-node src/index.ts",
-    "start:test": "SET NODE_ENV=test & ts-node src/index.ts",
-    "test": "SET NODE_ENV=test & jest --forceExit ",
+    "start": "NODE_ENV=devel nodemon --exec ts-node src/index.ts",
+    "start:test": "NODE_ENV=test ts-node src/index.ts",
+    "test": "NODE_ENV=test jest --forceExit ",
     "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
   },
   "jest": {
+    "globalSetup": "./src/utils/setupTest.js",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
