@@ -10,6 +10,7 @@ import {
   invalidEmail,
   passwordNotLongEnough
 } from "./errorMessages";
+import { createConfirmEmail } from "../../utils/createConfirmEmail";
 
 const schema = yup.object().shape({
   email: yup
@@ -28,7 +29,11 @@ export const resolvers: ResolverMap = {
     bye: () => "Bye"
   },
   Mutation: {
-    register: async (_, args: GQL.IRegisterOnMutationArguments) => {
+    register: async (
+      _,
+      args: GQL.IRegisterOnMutationArguments,
+      { redis, url }
+    ) => {
       try {
         await schema.validate(args, { abortEarly: false });
       } catch (err) {
@@ -53,6 +58,8 @@ export const resolvers: ResolverMap = {
         password: hashedPassword
       });
       await user.save();
+
+      const link = createConfirmEmail(url, user.id, redis);
       return null;
     }
   }
