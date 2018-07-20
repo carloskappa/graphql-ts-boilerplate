@@ -8,6 +8,7 @@
     "@types/jest": "^23.3.0",
     "@types/node": "^10.5.2",
     "@types/node-fetch": "^2.1.1",
+    "@types/sparkpost": "^2.1.4",
     "@types/uuid": "^3.4.3",
     "@types/yup": "^0.24.7",
     "gql2ts": "^1.8.0",
@@ -20,7 +21,10 @@
     "typescript": "2.9.2"
   },
   "dependencies": {
+    "@gql2ts/from-schema": "^1.8.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-import": "^0.6.0",
     "graphql-request": "^1.6.0",
@@ -30,6 +34,7 @@
     "node-fetch": "^2.1.2",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
+    "sparkpost": "^2.1.2",
     "typeorm": "0.2.7",
     "uuid": "^3.3.2",
     "yup": "^0.25.1"
@@ -39,7 +44,7 @@
     "start:test": "NODE_ENV=test ts-node src/index.ts",
     "test": "NODE_ENV=test jest --forceExit ",
     "test:watch": "NODE_ENV=test jest --watch ",
-    "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
+    "gen-schema-types": "ts-node src/scripts/createTypes.ts"
   },
   "jest": {
     "globalSetup": "./src/utils/setupTest.js",

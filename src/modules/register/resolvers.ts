@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import * as yup from "yup";
 import { ResolverMap } from "../../types/graphql-utils";
-import { GQL } from "../../types/schema";
+import { sendEmail } from "../../utils/sendEmail";
 import { User } from "../../entity/User";
 import { formatValidationError } from "../../utils/formatValidationError";
 import {
@@ -11,6 +11,7 @@ import {
   passwordNotLongEnough
 } from "./errorMessages";
 import { createConfirmEmail } from "../../utils/createConfirmEmail";
+import { GQL } from "../../types/schema";
 
 const schema = yup.object().shape({
   email: yup
@@ -64,7 +65,7 @@ export const resolvers: ResolverMap = {
 
       await user.save();
 
-      await createConfirmEmail(url, user.id, redis);
+      sendEmail(email, await createConfirmEmail(url, user.id, redis));
 
       return null;
     }

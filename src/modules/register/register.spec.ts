@@ -24,7 +24,7 @@ const mutation = (e: string, p: string) =>
 
 let conn: Connection;
 beforeAll(async () => {
-  conn = await createTestConnection();
+  conn = await createTestConnection(true);
 });
 afterAll(() => {
   conn.close();
