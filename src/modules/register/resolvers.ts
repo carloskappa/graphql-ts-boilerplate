@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import * as yup from "yup";
+import { GQL } from "../../types";
 import { ResolverMap } from "../../types/graphql-utils";
-import { sendEmail } from "../../utils/sendEmail";
 import { User } from "../../entity/User";
 import { formatValidationError } from "../../utils/formatValidationError";
 import {
@@ -10,8 +10,8 @@ import {
   invalidEmail,
   passwordNotLongEnough
 } from "./errorMessages";
-import { createConfirmEmail } from "../../utils/createConfirmEmail";
-import { GQL } from "../../types/schema";
+/* import { createConfirmEmail } from "../../utils/createConfirmEmail";
+import { sendEmail } from "../../utils/sendEmail"; */
 
 const schema = yup.object().shape({
   email: yup
@@ -32,8 +32,8 @@ export const resolvers: ResolverMap = {
   Mutation: {
     register: async (
       _,
-      args: GQL.IRegisterOnMutationArguments,
-      { redis, url }
+      args: GQL.IRegisterOnMutationArguments
+      // { redis, url }
     ) => {
       try {
         await schema.validate(args, { abortEarly: false });
@@ -65,7 +65,7 @@ export const resolvers: ResolverMap = {
 
       await user.save();
 
-      sendEmail(email, await createConfirmEmail(url, user.id, redis));
+      /* sendEmail(email, await createConfirmEmail(url, user.id, redis)); */
 
       return null;
     }

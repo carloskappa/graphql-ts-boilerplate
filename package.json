@@ -4,6 +4,9 @@
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
+    "@types/connect-redis": "^0.0.7",
+    "@types/dotenv": "^4.0.3",
+    "@types/express-session": "^1.15.10",
     "@types/ioredis": "^3.2.13",
     "@types/jest": "^23.3.0",
     "@types/node": "^10.5.2",
@@ -23,8 +26,10 @@
   "dependencies": {
     "@gql2ts/from-schema": "^1.8.0",
     "bcryptjs": "^2.4.3",
+    "connect-redis": "^3.3.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "graphql": "^0.13.2",
     "graphql-import": "^0.6.0",
     "graphql-request": "^1.6.0",
@@ -41,9 +46,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=devel nodemon --exec ts-node src/index.ts",
-    "start:test": "NODE_ENV=test ts-node src/index.ts",
-    "test": "NODE_ENV=test jest --forceExit ",
-    "test:watch": "NODE_ENV=test jest --watch ",
+    "start:test": "NODE_ENV=test nodemon --exec ts-node src/index.ts",
+    "test": "NODE_ENV=test jest --watch --cache=false",
     "gen-schema-types": "ts-node src/scripts/createTypes.ts"
   },
   "jest": {

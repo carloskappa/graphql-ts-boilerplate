@@ -14,5 +14,5 @@ module.exports = async function() {
 const setup = async () => {
   const app = await startServer();
   const { port } = app.address();
-  process.env.TEST_HOST = `http://127.0.0.1:${port}`;
+  process.env.TEST_HOST = `http://localhost:${port}`;
 };

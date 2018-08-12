@@ -7,7 +7,7 @@ import {
   invalidEmail
 } from "./errorMessages";
 import { createTestConnection } from "../../utils/createTestConnection";
-import { Connection } from "typeorm";
+import { Connection } from "../../../node_modules/typeorm";
 
 const email = "kappa@kappa.com";
 const password = "asdahsdhas";
@@ -21,14 +21,15 @@ const mutation = (e: string, p: string) =>
         }
     }
 `;
-
 let conn: Connection;
 beforeAll(async () => {
-  conn = await createTestConnection(true);
+  conn = await createTestConnection();
 });
-afterAll(() => {
-  conn.close();
+afterAll(async () => {
+  await conn.synchronize(true);
+  await conn.close();
 });
+
 describe("Register user", async () => {
   it("check for duplicate emails", async () => {
     const response: any = await request(
