@@ -1,32 +1,23 @@
-config();
+import "reflect-metadata";
 import * as connectRedis from "connect-redis";
-import * as path from "path";
-import * as fs from "fs";
 import { GraphQLServer } from "graphql-yoga";
-import { importSchema } from "graphql-import";
 import { config } from "dotenv";
 import * as session from "express-session";
 import { createORMConnection } from "./utils/createORMConnection";
-import { makeExecutableSchema, mergeSchemas } from "graphql-tools";
-import { GraphQLSchema } from "graphql";
 import { createTestConnection } from "./utils/createTestConnection";
 import { redis } from "./redis";
 import { confirmEmail } from "./routes/confirmEmail";
-
+import { genSchema } from "./utils/genSchema";
+config(); // starts dotEnv
 const RedisStore = connectRedis(session);
+
 export const startServer = async () => {
-  const schemas: GraphQLSchema[] = [];
-  const folders = fs.readdirSync(path.join(__dirname, "./modules"));
-  folders.forEach(folder => {
-    const { resolvers } = require(`./modules/${folder}/resolvers`);
-    const typeDefs = importSchema(
-      path.join(__dirname, `./modules/${folder}/schema.graphql`)
-    );
-    schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
-  });
+  if (process.env.NODE_ENV === "test") {
+    await redis.flushall();
+  }
 
   const server = new GraphQLServer({
-    schema: mergeSchemas({ schemas }),
+    schema: genSchema() as any,
     context: ({ request }) => ({
       redis,
       url: `${request.protocol}://${request.get("host")}`,
@@ -53,7 +44,7 @@ export const startServer = async () => {
 
   const cors = {
     credentials: true,
-    origin: "http://localhost:3000"
+    origin: process.env.NODE_ENV === "test" ? "*" : "http://localhost:3000"
   };
 
   server.express.get("/confirm/:id", confirmEmail);

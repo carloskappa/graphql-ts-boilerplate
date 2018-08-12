@@ -1,9 +1,9 @@
 import * as bcrypt from "bcryptjs";
-import { ResolverMap } from "../../types/graphql-utils";
-import { User } from "../../entity/User";
+import { ResolverMap } from "../../../types/graphql-utils";
+import { User } from "../../../entity/User";
 import { invalidLogin, confirmEmailError } from "./errorMessages";
 
-import { GQL } from "../../types";
+import { GQL } from "../../../types";
 const errorResponse = [
   {
     path: "email",

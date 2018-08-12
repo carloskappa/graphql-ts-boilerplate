@@ -1,9 +1,8 @@
-import * as bcrypt from "bcryptjs";
 import * as yup from "yup";
-import { GQL } from "../../types";
-import { ResolverMap } from "../../types/graphql-utils";
-import { User } from "../../entity/User";
-import { formatValidationError } from "../../utils/formatValidationError";
+import { GQL } from "../../../types";
+import { ResolverMap } from "../../../types/graphql-utils";
+import { User } from "../../../entity/User";
+import { formatValidationError } from "../../../utils/formatValidationError";
 import {
   duplicateEmail,
   emailNotLongEnough,
@@ -56,11 +55,9 @@ export const resolvers: ResolverMap = {
           }
         ];
       }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
       const user = User.create({
         email,
-        password: hashedPassword
+        password
       });
 
       await user.save();

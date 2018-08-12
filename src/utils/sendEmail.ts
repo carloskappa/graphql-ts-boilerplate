@@ -19,5 +19,4 @@ export const sendEmail = async (recipients: string, url: string) => {
     },
     recipients: [{ address: `${recipients}.sink.sparkpostmail.com` }]
   });
-  console.log(response);
 };

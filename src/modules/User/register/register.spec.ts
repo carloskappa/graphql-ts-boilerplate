@@ -1,16 +1,19 @@
+import * as faker from "faker";
 import { request } from "graphql-request";
-import { User } from "../../entity/User";
+import { User } from "../../../entity/User";
 import {
   duplicateEmail,
   emailNotLongEnough,
   passwordNotLongEnough,
   invalidEmail
 } from "./errorMessages";
-import { createTestConnection } from "../../utils/createTestConnection";
-import { Connection } from "../../../node_modules/typeorm";
+import { createTestConnection } from "../../../utils/createTestConnection";
+import { Connection } from "typeorm";
 
-const email = "kappa@kappa.com";
-const password = "asdahsdhas";
+faker.seed(Date.now() + 1);
+
+const email = faker.internet.email();
+const password = faker.internet.password();
 
 const mutation = (e: string, p: string) =>
   `
@@ -26,7 +29,6 @@ beforeAll(async () => {
   conn = await createTestConnection();
 });
 afterAll(async () => {
-  await conn.synchronize(true);
   await conn.close();
 });
 
