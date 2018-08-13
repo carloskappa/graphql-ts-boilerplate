@@ -1,7 +1,11 @@
 import * as bcrypt from "bcryptjs";
 import { ResolverMap } from "../../../types/graphql-utils";
 import { User } from "../../../entity/User";
-import { invalidLogin, confirmEmailError } from "./errorMessages";
+import {
+  invalidLogin,
+  confirmEmailError,
+  forgotPasswordLockError
+} from "./errorMessages";
 
 import { GQL } from "../../../types";
 import { userSessionIdPrefix } from "../../../constants";
@@ -13,9 +17,6 @@ const errorResponse = [
 ];
 
 export const resolvers: ResolverMap = {
-  Query: {
-    bye2: () => "bye"
-  },
   Mutation: {
     login: async (
       _,
@@ -33,6 +34,15 @@ export const resolvers: ResolverMap = {
           {
             path: "email",
             message: confirmEmailError
+          }
+        ];
+      }
+
+      if (user.forgotPasswordLocked) {
+        return [
+          {
+            path: "email",
+            message: forgotPasswordLockError
           }
         ];
       }

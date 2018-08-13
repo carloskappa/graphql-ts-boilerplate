@@ -1,5 +1,4 @@
 import * as faker from "faker";
-import { request } from "graphql-request";
 import { createTestConnection } from "../../../utils/createTestConnection";
 import { invalidLogin, confirmEmailError } from "./errorMessages";
 import { Connection } from "typeorm";
@@ -7,26 +6,6 @@ import { User } from "../../../entity/User";
 import { TestClient } from "../../../utils/TestClient";
 
 faker.seed(Date.now() + 1);
-
-const registerMutation = (e: string, p: string) =>
-  `
-    mutation {
-        register(email: "${e}", password: "${p}") {
-          path
-          message
-        }
-    }
-`;
-const loginMutation = (e: string, p: string) =>
-  `
-    mutation {
-        login(email: "${e}", password: "${p}") {
-          path
-          message
-          
-        }
-    }
-`;
 
 const loginExpectError = async (
   client: TestClient,

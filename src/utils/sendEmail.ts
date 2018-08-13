@@ -1,7 +1,7 @@
 import * as SparkPost from "sparkpost";
 const client = new SparkPost();
 export const sendEmail = async (recipients: string, url: string) => {
-  const response = await client.transmissions.send({
+  await client.transmissions.send({
     options: {
       sandbox: true
     },
