@@ -24,7 +24,19 @@ afterAll(async () => {
 });
 
 describe("logout", () => {
-  it("get current user and then logout", async () => {
+  it("multiple sessions", async () => {
+    // to-do
+    const client1 = new TestClient();
+    const client2 = new TestClient();
+
+    await client1.login(email, password);
+    await client2.login(email, password);
+    expect(await client1.me()).toEqual(await client2.me());
+    await client1.logout();
+    expect(await client1.me()).toEqual(await client2.me());
+  });
+
+  it("single session", async () => {
     const client = new TestClient();
     await client.login(email, password);
     const responseLogin = await client.me();
