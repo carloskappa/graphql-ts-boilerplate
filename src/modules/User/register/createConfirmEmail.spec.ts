@@ -1,9 +1,9 @@
 import * as Redis from "ioredis";
 import * as faker from "faker";
 import fetch from "node-fetch";
-import { User } from "../entity/User";
+import { User } from "../../../entity/User";
 import { createConfirmEmail } from "./createConfirmEmail";
-import { createTestConnection } from "./createTestConnection";
+import { createTestConnection } from "../../../utils/createTestConnection";
 faker.seed(Date.now() + 1);
 let userId: number;
 const redis = new Redis();

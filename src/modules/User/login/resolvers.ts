@@ -7,7 +7,6 @@ import {
   forgotPasswordLockError
 } from "./errorMessages";
 
-import { GQL } from "../../../types";
 import { userSessionIdPrefix } from "../../../constants";
 const errorResponse = [
   {

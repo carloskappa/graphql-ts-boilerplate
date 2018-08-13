@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import { GQL } from "../../../types";
 import { ResolverMap } from "../../../types/graphql-utils";
 import { User } from "../../../entity/User";
 import { formatValidationError } from "../../../utils/formatValidationError";

@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import * as bcrypt from "bcryptjs";
 import { ResolverMap } from "../../../types/graphql-utils";
-import { GQL } from "../../../types";
 import { User } from "../../../entity/User";
 import { forgotPasswordLockAccount } from "./forgotPasswordLockAccount";
 import { userNotFoundError, invalidKeyError } from "./errorMessages";
